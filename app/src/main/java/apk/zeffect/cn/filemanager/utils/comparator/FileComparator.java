@@ -1,4 +1,4 @@
-package apk.zeffect.cn.filemanager.utils;
+package apk.zeffect.cn.filemanager.utils.comparator;
 
 import java.util.Comparator;
 
@@ -28,7 +28,7 @@ public interface FileComparator {
                 return -1;
             if (o1.getFile().isFile() && o2.getFile().isDirectory())
                 return 1;
-            return o1.getFile().getName().compareTo(o2.getFile().getName());
+            return o1.getFile().getName().toLowerCase().compareTo(o2.getFile().getName().toLowerCase());
         }
     }
 }

@@ -2,7 +2,9 @@ package apk.zeffect.cn.filemanager;
 
 import android.app.Application;
 
+import apk.zeffect.cn.filemanager.fragment.SetttingFragment;
 import apk.zeffect.cn.filemanager.orm.FileOrm;
+import apk.zeffect.cn.filemanager.utils.sp.PreferencesUtils;
 
 /**
  * <pre>
@@ -17,9 +19,33 @@ import apk.zeffect.cn.filemanager.orm.FileOrm;
  */
 
 public class MyApp extends Application {
+
+    static MyApp instance;
+    /***
+     * 是否显示隐藏文件
+     */
+    private boolean mShowHide;
+
+    public static MyApp getInstance() {
+        if (instance == null) {
+            instance = new MyApp();
+        }
+        return instance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
         FileOrm.init(this);
+        mShowHide = PreferencesUtils.getBoolean(this, SetttingFragment.SHOW_HIDE_SWITCH_KEY, false);
+    }
+
+    public boolean isShowHide() {
+        return mShowHide;
+    }
+
+    public MyApp setShowHide(boolean pShowHide) {
+        mShowHide = pShowHide;
+        return this;
     }
 }

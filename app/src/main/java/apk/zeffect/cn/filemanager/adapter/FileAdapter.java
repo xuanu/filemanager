@@ -60,7 +60,7 @@ public class FileAdapter extends BaseAdapter {
         } else {
             tempHolder = (ViewHolder) convertView.getTag();
         }
-        tempHolder.nameTv.setText(mFiles.get(position).getFile().getName());
+        tempHolder.nameTv.setText(mFiles.get(position).getShowName());
         return convertView;
     }
 
