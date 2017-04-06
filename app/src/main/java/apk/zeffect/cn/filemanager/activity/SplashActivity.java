@@ -9,11 +9,10 @@ import android.support.annotation.Nullable;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.anthonycr.grant.PermissionsManager;
-import com.anthonycr.grant.PermissionsResultAction;
 
 import apk.zeffect.cn.filemanager.MainActivity;
 import apk.zeffect.cn.filemanager.R;
+import apk.zeffect.cn.filemanager.utils.permission.PermissionUtils;
 
 /**
  * 引导页面。可以用来做广告
@@ -30,10 +29,16 @@ import apk.zeffect.cn.filemanager.R;
  */
 
 public class SplashActivity extends Activity {
+    /***
+     * 请求必要权限
+     */
+    private final int RQUESTION_PERMISSION_CODE = 100;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
 
     @Override
     protected void onResume() {
@@ -52,14 +57,18 @@ public class SplashActivity extends Activity {
 
 
     private void checkPermission() {
-        PermissionsManager.getInstance().requestPermissionsIfNecessaryForResult(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionsResultAction() {
-            @Override
-            public void onGranted() {
-                gotoMain();
-            }
+        if (PermissionUtils.checkPermission(SplashActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE, RQUESTION_PERMISSION_CODE)) {
+            gotoMain();
+        }
+    }
 
-            @Override
-            public void onDenied(String permission) {
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == RQUESTION_PERMISSION_CODE) {
+            if (PermissionUtils.verifyPermissions(grantResults)) {
+                gotoMain();
+            } else {
                 new MaterialDialog.Builder(SplashActivity.this).content(R.string.permission_miss).onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -68,12 +77,6 @@ public class SplashActivity extends Activity {
                     }
                 }).show();
             }
-        });
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        PermissionsManager.getInstance().notifyPermissionsChange(permissions, grantResults);
+        }
     }
 }

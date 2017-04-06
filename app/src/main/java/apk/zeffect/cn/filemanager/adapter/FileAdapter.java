@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import apk.zeffect.cn.filemanager.R;
@@ -59,18 +61,40 @@ public class FileAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_file_layout, null);
             tempHolder.nameTv = (TextView) convertView.findViewById(R.id.ifl_file_name_tv);
             tempHolder.iconImg = (ImageView) convertView.findViewById(R.id.ifl_type_img);
+            tempHolder.desTv = (TextView) convertView.findViewById(R.id.ifl_file_type_tv);
             convertView.setTag(tempHolder);
         } else {
             tempHolder = (ViewHolder) convertView.getTag();
         }
-        tempHolder.nameTv.setText(mFiles.get(position).getShowName());
-        tempHolder.iconImg.setImageResource(Utils.type2drawable(mFiles.get(position).getType()));
+        FileBean tempFileBean = mFiles.get(position);
+        tempHolder.nameTv.setText(tempFileBean.getShowName());
+        tempHolder.iconImg.setImageResource(Utils.type2drawable(tempFileBean.getType()));
+        tempHolder.desTv.setText(converTimeMilsToFormatStr(tempFileBean.getLastModified(), DATEFORM));
         return convertView;
     }
 
     private static class ViewHolder {
         private TextView nameTv;
         private ImageView iconImg;
+        private TextView desTv;
+    }
+
+    /**
+     * 日期格式。
+     */
+    public static final String DATEFORM = "yyyy-MM-dd";
+
+    /**
+     * 毫秒时间转字符串。
+     *
+     * @param timeInMils 当前时间。
+     * @param dateFormat 待转时间字符串格式。
+     * @return 时间字符串
+     */
+    public static String converTimeMilsToFormatStr(long timeInMils, String dateFormat) {
+        SimpleDateFormat df = new SimpleDateFormat(dateFormat);
+        Date date = new Date(timeInMils);
+        return df.format(date);
     }
 
 }
