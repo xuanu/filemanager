@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import apk.zeffect.cn.filemanager.R;
 import apk.zeffect.cn.filemanager.bean.FileBean;
+import apk.zeffect.cn.filemanager.utils.Utils;
 
 /**
  * 应用分类加载
@@ -56,16 +58,19 @@ public class FileAdapter extends BaseAdapter {
             tempHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_file_layout, null);
             tempHolder.nameTv = (TextView) convertView.findViewById(R.id.ifl_file_name_tv);
+            tempHolder.iconImg = (ImageView) convertView.findViewById(R.id.ifl_type_img);
             convertView.setTag(tempHolder);
         } else {
             tempHolder = (ViewHolder) convertView.getTag();
         }
         tempHolder.nameTv.setText(mFiles.get(position).getShowName());
+        tempHolder.iconImg.setImageResource(Utils.type2drawable(mFiles.get(position).getType()));
         return convertView;
     }
 
     private static class ViewHolder {
         private TextView nameTv;
+        private ImageView iconImg;
     }
 
 }
