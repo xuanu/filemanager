@@ -28,7 +28,7 @@ public class Utils {
             retuDrawable = R.drawable.vector_drawable_ic_doc;
         } else if (type.equals("eps")) {
             retuDrawable = R.drawable.vector_drawable_ic_eps;
-        } else if (type.equals("jgp") || type.equals("png") || type.equals("gif") || type.equals("jpeg") || type.equals("bmp")) {
+        } else if (type.equals("jpg") || type.equals("png") || type.equals("gif") || type.equals("jpeg") || type.equals("bmp")) {
             retuDrawable = R.drawable.vector_drawable_ic_jpg;
         } else if (type.equals("mp3") || type.equals("wav") || type.equals("ogg") || type.equals("midi")) {
             retuDrawable = R.drawable.vector_drawable_ic_mp3;

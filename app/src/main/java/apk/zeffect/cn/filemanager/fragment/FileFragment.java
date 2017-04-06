@@ -103,7 +103,7 @@ public class FileFragment extends Fragment {
                 if (tempBean.getFile().isDirectory()) {
                     refreshFiles(tempBean.getFile());
                 } else if (tempBean.getFile().isFile()) {
-                    startActivity(OpenFiles.openFile(tempBean.getFile().getAbsolutePath()));
+                    startActivity(OpenFiles.openFile(getContext(), tempBean.getFile().getAbsolutePath()));
                 }
             }
         });
