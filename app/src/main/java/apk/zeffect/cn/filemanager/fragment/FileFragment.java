@@ -1,10 +1,12 @@
 package apk.zeffect.cn.filemanager.fragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.Collections;
@@ -103,7 +106,11 @@ public class FileFragment extends Fragment {
                 if (tempBean.getFile().isDirectory()) {
                     refreshFiles(tempBean.getFile());
                 } else if (tempBean.getFile().isFile()) {
-                    startActivity(OpenFiles.openFile(getContext(), tempBean.getFile().getAbsolutePath()));
+                    try {
+                        OpenFiles.openFiles(getContext(), FileProvider.getUriForFile(getContext(), "zeffect.cn.apks.filemanager", tempBean.getFile()), OpenFiles.getSuffix(tempBean.getFile().getAbsolutePath()));
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(getContext(), "未找到能打开的应用！", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
